@@ -200,6 +200,11 @@ body{
 button{
     cursor: pointer;
     font-weight: bold;
+    box-shadow: 0 2px 2px black;
+}
+button:hover{
+    box-shadow: 0 1px 1px black;
+    transition: 0.25s;
 }
 .bigBtn{
     width: 70px;
