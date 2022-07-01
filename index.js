@@ -1,4 +1,4 @@
-import { getScreenText, useCashMachine } from './algo.js'
+import { checkCard, useCashMachine } from './algo.js'
 
 const card = document.querySelector("#userCard");
 let shiftX;
@@ -22,10 +22,12 @@ card.addEventListener("mousedown", event => {
     shiftY = event.clientY - rect.top;
     move(event);
     card.addEventListener("mousemove", mouseMove);
+    checkCard(0, card)
 });
 
 card.addEventListener("mouseup", () => {
     card.removeEventListener("mousemove", mouseMove);
+    checkCard(1, card)
 });
 
 let btn0 = document.querySelector('#btn0')
@@ -54,74 +56,74 @@ let arrowR3 = document.querySelector('#btnRArrow3')
 let arrowR4 = document.querySelector('#btnRArrow4')
 
 btn0.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 btn1.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 btn2.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 btn3.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 btn4.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 btn5.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 btn6.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 btn7.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 btn8.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 btn9.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 empty1.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 coma.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 cancel.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 clear.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 empty2.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 validate.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 arrowL1.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 arrowL2.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 arrowL3.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 arrowL4.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 arrowR1.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 arrowR2.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 arrowR3.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
 arrowR4.onclick = (e) => {
-    useCashMachine(e.target.id, card)
+    useCashMachine(e.target.id, "code")
 }
