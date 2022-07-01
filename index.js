@@ -1,4 +1,4 @@
-import { getScreenText } from './algo.js'
+import { getScreenText, useCashMachine } from './algo.js'
 
 const card = document.querySelector("#userCard");
 let shiftX;
@@ -28,8 +28,6 @@ card.addEventListener("mouseup", () => {
     card.removeEventListener("mousemove", mouseMove);
 });
 
-getScreenText()
-
 let btn0 = document.querySelector('#btn0')
 let btn1 = document.querySelector('#btn1')
 let btn2 = document.querySelector('#btn2')
@@ -55,75 +53,75 @@ let arrowR2 = document.querySelector('#btnRArrow2')
 let arrowR3 = document.querySelector('#btnRArrow3')
 let arrowR4 = document.querySelector('#btnRArrow4')
 
-btn0.onclick = () => {
-    console.log("btn0")
+btn0.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-btn1.onclick = () => {
-    console.log("btn1")
+btn1.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-btn2.onclick = () => {
-    console.log("btn2")
+btn2.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-btn3.onclick = () => {
-    console.log("btn3")
+btn3.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-btn4.onclick = () => {
-    console.log("btn4")
+btn4.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-btn5.onclick = () => {
-    console.log("btn5")
+btn5.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-btn6.onclick = () => {
-    console.log("btn6")
+btn6.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-btn7.onclick = () => {
-    console.log("btn7")
+btn7.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-btn8.onclick = () => {
-    console.log("btn8")
+btn8.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-btn9.onclick = () => {
-    console.log("btn9")
+btn9.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-empty1.onclick = () => {
-    console.log("empty1")
+empty1.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-coma.onclick = () => {
-    console.log("coma")
+coma.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-cancel.onclick = () => {
-    console.log("cancel")
+cancel.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-clear.onclick = () => {
-    console.log("clear")
+clear.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-empty2.onclick = () => {
-    console.log("empty2")
+empty2.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-validate.onclick = () => {
-    console.log("validate")
+validate.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-arrowL1.onclick = () => {
-    console.log("arrowL1")
+arrowL1.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-arrowL2.onclick = () => {
-    console.log("arrowL2")
+arrowL2.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-arrowL3.onclick = () => {
-    console.log("arrowL3")
+arrowL3.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-arrowL4.onclick = () => {
-    console.log("arrowL4")
+arrowL4.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-arrowR1.onclick = () => {
-    console.log("arrowR1")
+arrowR1.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-arrowR2.onclick = () => {
-    console.log("arrowR2")
+arrowR2.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-arrowR3.onclick = () => {
-    console.log("arrowR3")
+arrowR3.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
-arrowR4.onclick = () => {
-    console.log("arrowR4")
+arrowR4.onclick = (e) => {
+    useCashMachine(e.target.id, card)
 }
