@@ -1,4 +1,11 @@
-import { checkCard, useCashMachine } from './algo.js'
+import { getScreenText, checkCard, useCashMachine } from './algo.js'
+
+sessionStorage.setItem('code', "")
+// localStorage.setItem('code', "")
+let userCode = localStorage.getItem('code')
+if (!userCode || userCode === "") {
+    getScreenText("Définir un code de 4 chiffres et valider")
+}
 
 const card = document.querySelector("#userCard");
 let shiftX;
@@ -46,84 +53,84 @@ let cancel = document.querySelector('#cancel')
 let clear = document.querySelector('#clear')
 let empty2 = document.querySelector('#empty2')
 let validate = document.querySelector('#validate')
-let arrowL1 = document.querySelector('#btnLArrow1')
-let arrowL2 = document.querySelector('#btnLArrow2')
-let arrowL3 = document.querySelector('#btnLArrow3')
-let arrowL4 = document.querySelector('#btnLArrow4')
-let arrowR1 = document.querySelector('#btnRArrow1')
-let arrowR2 = document.querySelector('#btnRArrow2')
-let arrowR3 = document.querySelector('#btnRArrow3')
-let arrowR4 = document.querySelector('#btnRArrow4')
+let arrowL1 = document.querySelector('#LArrow1')
+let arrowL2 = document.querySelector('#LArrow2')
+let arrowL3 = document.querySelector('#LArrow3')
+let arrowL4 = document.querySelector('#LArrow4')
+let arrowR1 = document.querySelector('#RArrow1')
+let arrowR2 = document.querySelector('#RArrow2')
+let arrowR3 = document.querySelector('#RArrow3')
+let arrowR4 = document.querySelector('#RArrow4')
 
 btn0.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 btn1.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 btn2.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 btn3.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 btn4.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 btn5.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 btn6.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 btn7.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 btn8.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 btn9.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 empty1.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 coma.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 cancel.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 clear.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 empty2.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 validate.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 arrowL1.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 arrowL2.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 arrowL3.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 arrowL4.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 arrowR1.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 arrowR2.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 arrowR3.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
 arrowR4.onclick = (e) => {
-    useCashMachine(e.target.id, "code")
+    useCashMachine(e.target.id)
 }
