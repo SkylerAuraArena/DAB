@@ -3,6 +3,8 @@ import { getScreenText, checkCard, useCashMachine } from './algo.js'
 sessionStorage.setItem('code', "")
 localStorage.setItem('code', "")
 sessionStorage.setItem('tries', 2)
+const cash = Math.floor(Math.random() * 1001)
+localStorage.setItem('cash', cash)
 let userCode = localStorage.getItem('code')
 if (!userCode || userCode === "") {
     getScreenText("Définir un code de 4 chiffres et valider")

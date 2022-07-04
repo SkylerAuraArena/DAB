@@ -16,13 +16,20 @@ export function checkCard(mode = 0, userCard = null) {
 }
 
 export function getScreenText(text = "") {
-    let screen = document.querySelector('.screen')
+    let screen = document.querySelector('#connectionScreen')
     text === "null" ? screen.textContent = "Insérer votre carte" : screen.textContent = text
 }
 
 export function useCashMachine(btnClicked = null) {
     let screen = document.querySelector('.screen')
-    if (screen.textContent !== "Insérer votre carte" && screen.textContent !== "La carte est mal positionnée") {
+    let mainScreenDisplayed = getComputedStyle(document.querySelector('#mainScreen')).display
+    if (mainScreenDisplayed === "grid") {
+        btnClicked && chooseOption(btnClicked)
+    } else if (screen.textContent.includes("€ en banque")) {
+        document.querySelector(`.screen`).style.alignItems = "stretch"
+        document.querySelector(`#connectionScreen`).style.display = "none"
+        document.querySelector(`#mainScreen`).style.display = "grid"
+    } else if (screen.textContent !== "Insérer votre carte" && screen.textContent !== "La carte est mal positionnée") {
         btnClicked && setUserCode(btnClicked)
     }
 }
@@ -101,7 +108,9 @@ function setUserCode(btnClicked = null) {
                     } else {
                         const tries = sessionStorage.getItem('tries')
                         if (userCode === validCode) {
-                            getScreenText('Consultation || Retrait')
+                            document.querySelector(`.screen`).style.alignItems = "stretch"
+                            document.querySelector(`#connectionScreen`).style.display = "none"
+                            document.querySelector(`#mainScreen`).style.display = "grid"
                         } else {
                             if (tries > 0) {
                                 getScreenText(`Code faux, ${tries} essai(s) restant(s)`)
@@ -118,5 +127,17 @@ function setUserCode(btnClicked = null) {
                 }
             }
         }
+    }
+}
+
+function chooseOption(btnClicked = null) {
+    const cash = localStorage.getItem('cash')
+    if (btnClicked === "RArrow1") {
+        document.querySelector(`.screen`).style.alignItems = "center"
+        document.querySelector(`#connectionScreen`).style.display = "block"
+        document.querySelector(`#mainScreen`).style.display = "none"
+        getScreenText(`Vous avez ${cash}€ en banque`)
+    } else {
+        console.log(btnClicked)
     }
 }
