@@ -1,7 +1,8 @@
 import { getScreenText, checkCard, useCashMachine } from './algo.js'
 
 sessionStorage.setItem('code', "")
-// localStorage.setItem('code', "")
+localStorage.setItem('code', "")
+sessionStorage.setItem('tries', 2)
 let userCode = localStorage.getItem('code')
 if (!userCode || userCode === "") {
     getScreenText("Définir un code de 4 chiffres et valider")

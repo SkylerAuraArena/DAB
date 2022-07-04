@@ -125,6 +125,7 @@ body{
     transform: perspective(150px) rotateX(45deg); 
 }
 #userCard{
+    display: none;
     position: absolute;
     top: 50px;
     left: 60%;

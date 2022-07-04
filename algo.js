@@ -5,7 +5,7 @@ export function checkCard(mode = 0, userCard = null) {
         let userCardPos = userCard?.getBoundingClientRect()
         if (mode === 1) {
             if (userCard && (userCardPos.top >= cardSlotPos.top && userCardPos.bottom <= cardSlotPos.bottom) && (userCardPos.left >= cardSlotPos.left && userCardPos.right <= cardSlotPos.right)) {
-                getScreenText("Veuillez saisir votre code")
+                getScreenText("Veuillez saisir votre code et valider")
             } else {
                 getScreenText("La carte est mal positionnée")
             }
@@ -22,84 +22,32 @@ export function getScreenText(text = "") {
 
 export function useCashMachine(btnClicked = null) {
     let screen = document.querySelector('.screen')
-    let userCode = localStorage.getItem('code')
-    if (userCode && userCode.length === 4 && (screen.textContent !== "Insérer votre carte" && screen.textContent !== "La carte est mal positionnée")) {
-        if (mode === "setCode") {
-            btnClicked && setUserCode(btnClicked)
-        } else if (mode === "getCode") {
-            btnClicked && getUserCode(btnClicked)
-        }
-    } else {
+    if (screen.textContent !== "Insérer votre carte" && screen.textContent !== "La carte est mal positionnée") {
         btnClicked && setUserCode(btnClicked)
-    }
-    // if (!userCode || userCode === "") {
-    //     btnClicked && setUserCode(btnClicked)
-    // } else if (userCode.length === 0 || userCode.length < 4) {
-    //     getScreenText('*'.repeat(codeLength))
-    //     btnClicked && setUserCode(btnClicked)
-    // }
-}
-
-function getUserCode(btnClicked = null) {
-    let screen = document.querySelector('.screen')
-    let btnClickedTxt = document.querySelector(`#${btnClicked}`).textContent
-    if (screen.textContent === "Veuillez saisir votre code") {
-        if (btnClicked.includes('btn')) {
-            sessionStorage.setItem('code', btnClickedTxt)
-            getScreenText('*')
-        }
-    } else {
-        if (!btnClicked.includes('Arrow') && !btnClicked.includes('coma') && !btnClicked.includes('empty')) {
-            let codeLength = sessionStorage.getItem('code').length
-            if (btnClicked.includes('cancel') || (btnClicked.includes('clear') && codeLength === 1)) {
-                sessionStorage.setItem('code', '')
-                getScreenText('Veuillez saisir votre code')
-            } else if (codeLength < 4) {
-                if (btnClicked.includes('btn')) {
-                    sessionStorage.setItem('code', sessionStorage.getItem('code') + btnClickedTxt)
-                    getScreenText('*'.repeat(codeLength + 1))
-                } else if (btnClicked.includes('clear')) {
-                    console.log(sessionStorage.getItem('code').substring(0, codeLength - 1))
-                    sessionStorage.setItem('code', sessionStorage.getItem('code').substring(0, codeLength - 1))
-                    getScreenText('*'.repeat(codeLength - 1))
-                } else if (btnClicked.includes('validate')) {
-                    getScreenText('Le code doit être de 4 chiffres')
-                }
-            } else {
-                if (btnClicked.includes('clear')) {
-                    console.log(sessionStorage.getItem('code').substring(0, codeLength - 1))
-                    sessionStorage.setItem('code', sessionStorage.getItem('code').substring(0, codeLength - 1))
-                    getScreenText('*'.repeat(codeLength - 1))
-                } else if (btnClicked.includes('validate')) {
-                    codeLength > 4 ? getScreenText('Le code doit être de 4 chiffres') : getScreenText('Consultation || Retrait')
-                } else {
-                    getScreenText('Le code doit être de 4 chiffres')
-                }
-            }
-        }
     }
 }
 
 function setUserCode(btnClicked = null) {
     let screen = document.querySelector('.screen')
     let btnClickedTxt = document.querySelector(`#${btnClicked}`).textContent
-    let userCode = localStorage.getItem('code')
-    if (screen.textContent === "Définir un code de 4 chiffres et valider" || userCode.length === 0 || userCode.length < 4) {
+    let validCode = localStorage.getItem('code')
+    let userCode = sessionStorage.getItem('code')
+    let codeLength = userCode.length
+    if (screen.textContent === "Définir un code de 4 chiffres et valider" || validCode.length === 0 || validCode.length < 4) {
         if (!btnClicked.includes('Arrow') && !btnClicked.includes('coma') && !btnClicked.includes('empty')) {
-            let codeLength = sessionStorage.getItem('code').length
             if (btnClicked.includes('cancel') || (btnClicked.includes('clear') && codeLength === 1)) {
                 sessionStorage.setItem('code', '')
                 getScreenText('Définir un code de 4 chiffres et valider')
             } else if (codeLength < 4) {
                 if (btnClicked.includes('btn')) {
-                    sessionStorage.setItem('code', sessionStorage.getItem('code') + btnClickedTxt)
+                    sessionStorage.setItem('code', userCode + btnClickedTxt)
                     getScreenText('*'.repeat(codeLength + 1))
                 } else if (btnClicked.includes('clear')) {
                     if (codeLength === 0) {
                         sessionStorage.setItem('code', '')
                         getScreenText('Définir un code de 4 chiffres et valider')
                     } else {
-                        sessionStorage.setItem('code', sessionStorage.getItem('code').substring(0, codeLength - 1))
+                        sessionStorage.setItem('code', userCode.substring(0, codeLength - 1))
                         getScreenText('*'.repeat(codeLength - 1))
                     }
                 } else if (btnClicked.includes('validate')) {
@@ -107,14 +55,16 @@ function setUserCode(btnClicked = null) {
                 }
             } else {
                 if (btnClicked.includes('clear')) {
-                    sessionStorage.setItem('code', sessionStorage.getItem('code').substring(0, codeLength - 1))
+                    sessionStorage.setItem('code', userCode.substring(0, codeLength - 1))
                     getScreenText('*'.repeat(codeLength - 1))
                 } else if (btnClicked.includes('validate')) {
                     if (codeLength > 4) {
                         getScreenText('Le code doit être de 4 chiffres')
                     } else {
-                        localStorage.setItem('code', sessionStorage.getItem('code'))
+                        localStorage.setItem('code', userCode)
+                        sessionStorage.setItem('code', '')
                         getScreenText('Insérer votre carte')
+                        document.querySelector("#userCard").style.display = "block"
                     }
                 } else {
                     getScreenText('Le code doit être de 4 chiffres')
@@ -123,26 +73,46 @@ function setUserCode(btnClicked = null) {
         }
     } else {
         if (!btnClicked.includes('Arrow') && !btnClicked.includes('coma') && !btnClicked.includes('empty')) {
-            let codeLength = sessionStorage.getItem('code').length
             if (btnClicked.includes('cancel') || (btnClicked.includes('clear') && codeLength === 1)) {
                 sessionStorage.setItem('code', '')
-                getScreenText('Veuillez saisir votre code')
+                getScreenText('Veuillez saisir votre code et valider')
             } else if (codeLength < 4) {
                 if (btnClicked.includes('btn')) {
-                    sessionStorage.setItem('code', sessionStorage.getItem('code') + btnClickedTxt)
+                    sessionStorage.setItem('code', userCode + btnClickedTxt)
                     getScreenText('*'.repeat(codeLength + 1))
                 } else if (btnClicked.includes('clear')) {
-                    sessionStorage.setItem('code', sessionStorage.getItem('code').substring(0, codeLength - 1))
-                    getScreenText('*'.repeat(codeLength - 1))
+                    if (codeLength === 0) {
+                        sessionStorage.setItem('code', '')
+                        getScreenText('Veuillez saisir votre code et valider')
+                    } else {
+                        sessionStorage.setItem('code', userCode.substring(0, codeLength - 1))
+                        getScreenText('*'.repeat(codeLength - 1))
+                    }
                 } else if (btnClicked.includes('validate')) {
                     getScreenText('Le code doit être de 4 chiffres')
                 }
             } else {
                 if (btnClicked.includes('clear')) {
-                    sessionStorage.setItem('code', sessionStorage.getItem('code').substring(0, codeLength - 1))
+                    sessionStorage.setItem('code', userCode.substring(0, codeLength - 1))
                     getScreenText('*'.repeat(codeLength - 1))
                 } else if (btnClicked.includes('validate')) {
-                    codeLength > 4 ? getScreenText('Le code doit être de 4 chiffres') : getScreenText('Consultation || Retrait')
+                    if (codeLength > 4) {
+                        getScreenText('Le code doit être de 4 chiffres')
+                    } else {
+                        const tries = sessionStorage.getItem('tries')
+                        if (userCode === validCode) {
+                            getScreenText('Consultation || Retrait')
+                        } else {
+                            if (tries > 0) {
+                                getScreenText(`Code faux, ${tries} essai(s) restant(s)`)
+                                sessionStorage.setItem('code', "")
+                                sessionStorage.setItem('tries', tries - 1)
+                            } else {
+                                getScreenText(`Code faux, carte avalée.`)
+                                document.querySelector("#userCard").style.display = "none"
+                            }
+                        }
+                    }
                 } else {
                     getScreenText('Le code doit être de 4 chiffres')
                 }
