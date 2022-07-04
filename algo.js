@@ -23,19 +23,22 @@ export function getScreenText(text = "") {
 export function useCashMachine(btnClicked = null) {
     let screen = document.querySelector('.screen')
     let mainScreenDisplayed = getComputedStyle(document.querySelector('#mainScreen')).display
+    let isCashSlotOpened = getComputedStyle(document.querySelector('#cashSlot')).backgroundColor
     const frozenCard = sessionStorage.getItem('frozenCard')
     const withdraw = sessionStorage.getItem('withdraw')
     if (frozenCard === "false") {
-        if (mainScreenDisplayed === "grid") {
-            btnClicked && chooseOption(btnClicked)
-        } else if (withdraw === "true") {
-            btnClicked && manageCash(btnClicked)
-        } else if (screen.textContent.includes("€ en banque")) {
-            document.querySelector(`.screen`).style.alignItems = "stretch"
-            document.querySelector(`#connectionScreen`).style.display = "none"
-            document.querySelector(`#mainScreen`).style.display = "grid"
-        } else if (screen.textContent !== "Insérer votre carte" && screen.textContent !== "La carte est mal positionnée") {
-            btnClicked && setUserCode(btnClicked)
+        if (isCashSlotOpened !== "rgb(0, 0, 0)") {
+            if (mainScreenDisplayed === "grid") {
+                btnClicked && chooseOption(btnClicked)
+            } else if (withdraw === "true") {
+                btnClicked && manageCash(btnClicked)
+            } else if (screen.textContent.includes("€ en banque")) {
+                document.querySelector(`.screen`).style.alignItems = "stretch"
+                document.querySelector(`#connectionScreen`).style.display = "none"
+                document.querySelector(`#mainScreen`).style.display = "grid"
+            } else if (screen.textContent !== "Insérer votre carte" && screen.textContent !== "La carte est mal positionnée") {
+                btnClicked && setUserCode(btnClicked)
+            }
         }
     }
 }
@@ -218,6 +221,8 @@ function manageCash(btnClicked = null) {
             localStorage.setItem('cash', newBalance)
             getScreenText(`Prenez vos billets : ${cashToWithdraw}€`)
             sessionStorage.setItem('withdraw', false)
+            document.querySelector(`#cashSlot`).style.backgroundColor = "black"
+            document.querySelector(`#cashSlot`).style.cursor = "pointer"
         } else if (cashToWithdraw === 0) {
             getScreenText(`Vous vous croyez drôle ?`)
         } else if (cashToWithdraw < 0) {

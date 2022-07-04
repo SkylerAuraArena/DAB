@@ -6,8 +6,8 @@ localStorage.setItem('lastCode', "")
 sessionStorage.setItem('tries', 2)
 sessionStorage.setItem('changeCode', true)
 sessionStorage.setItem('frozenCard', false)
-const cash = Math.floor(Math.random() * 1001)
-localStorage.setItem('cash', cash)
+const cashAmount = Math.floor(Math.random() * 1001)
+localStorage.setItem('cash', cashAmount)
 sessionStorage.setItem('withdraw', false)
 let userCode = localStorage.getItem('code')
 if (!userCode || userCode === "") {
@@ -43,6 +43,46 @@ card.addEventListener("mouseup", () => {
     card.removeEventListener("mousemove", mouseMove);
     checkCard(1, card)
 });
+
+
+const cashSlot = document.querySelector(`#cashSlot`)
+const cash = document.querySelector("#cash");
+cashSlot.addEventListener("click", event => {
+    event.preventDefault()
+    cash.style.display = "flex"
+});
+
+let shiftXCash;
+let shiftYCash;
+
+cash.addEventListener("dragstart", event => event.preventDefault());
+
+const moveCash = event => {
+    cash.style.left = event.pageX - shiftX + "px";
+    cash.style.top = event.pageY - shiftY + "px";
+};
+
+const mouseMoveCash = event => {
+    moveCash(event);
+};
+
+cash.addEventListener("mousedown", event => {
+    cash.style.position = "absolute";
+    const rect = cash.getBoundingClientRect();
+    shiftXCash = event.clientX - rect.left;
+    shiftYCash = event.clientY - rect.top;
+    moveCash(event);
+    cash.addEventListener("mousemove", mouseMoveCash);
+});
+
+cash.addEventListener("mouseup", () => {
+    cash.removeEventListener("mousemove", mouseMoveCash);
+    document.querySelector(`#cashSlot`).style.backgroundColor = "lightgray"
+    document.querySelector(`.screen`).style.alignItems = "stretch"
+    document.querySelector(`#connectionScreen`).style.display = "none"
+    document.querySelector(`#mainScreen`).style.display = "grid"
+});
+
 
 let btn0 = document.querySelector('#btn0')
 let btn1 = document.querySelector('#btn1')

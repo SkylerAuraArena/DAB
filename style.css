@@ -86,7 +86,8 @@ body{
 .cardSlot:hover{
     background-color: green;
 }
-.cashSlot{
+#cashSlot{
+    position: relative;
     width: 50px;
     height: 20px;
     background-color: lightgray;
@@ -234,4 +235,23 @@ button:hover{
     grid-row-gap: 0px;
     font-size: 0.9rem;
     padding-top: 3px;
+}
+
+#cash{
+    position: absolute;
+    display: none;
+    z-index: 1;
+    height: 45px;
+    width: 22.5px;
+    background-color: green;
+    top: 46vh;
+    left: 49.25%;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem;
+    cursor: pointer;
+
 }
