@@ -42,6 +42,7 @@ function setUserCode(btnClicked = null) {
     let codeLength = userCode.length
     if (screen.textContent === "Définir un code de 4 chiffres et valider" || validCode.length === 0 || validCode.length < 4) {
         if (!btnClicked.includes('Arrow') && !btnClicked.includes('coma') && !btnClicked.includes('empty')) {
+            console.log("AAAAAAAAAA")
             if (btnClicked.includes('cancel') || (btnClicked.includes('clear') && codeLength === 1)) {
                 sessionStorage.setItem('code', '')
                 getScreenText('Définir un code de 4 chiffres et valider')
@@ -61,6 +62,7 @@ function setUserCode(btnClicked = null) {
                     getScreenText('Le code doit être de 4 chiffres')
                 }
             } else {
+                console.log("BBBBBBBBBBBB")
                 if (btnClicked.includes('clear')) {
                     sessionStorage.setItem('code', userCode.substring(0, codeLength - 1))
                     getScreenText('*'.repeat(codeLength - 1))
@@ -68,10 +70,26 @@ function setUserCode(btnClicked = null) {
                     if (codeLength > 4) {
                         getScreenText('Le code doit être de 4 chiffres')
                     } else {
-                        localStorage.setItem('code', userCode)
-                        sessionStorage.setItem('code', '')
-                        getScreenText('Insérer votre carte')
-                        document.querySelector("#userCard").style.display = "block"
+                        const code = localStorage.getItem('code')
+                        const lastCode = localStorage.getItem('lastCode')
+                        if (userCode === lastCode) {
+                            getScreenText('Vous devez saisir un code différent')
+                            localStorage.setItem('code', "")
+                            sessionStorage.setItem('code', "")
+                        } else {
+                            localStorage.setItem('code', userCode)
+                            sessionStorage.setItem('code', '')
+                            let displayCard = sessionStorage.getItem('changeCode')
+                            if (displayCard === "true") {
+                                getScreenText('Insérer votre carte')
+                                document.querySelector("#userCard").style.display = "block"
+                                sessionStorage.setItem('changeCode', false)
+                            } else {
+                                document.querySelector(`.screen`).style.alignItems = "stretch"
+                                document.querySelector(`#connectionScreen`).style.display = "none"
+                                document.querySelector(`#mainScreen`).style.display = "grid"
+                            }
+                        }
                     }
                 } else {
                     getScreenText('Le code doit être de 4 chiffres')
@@ -111,6 +129,7 @@ function setUserCode(btnClicked = null) {
                             document.querySelector(`.screen`).style.alignItems = "stretch"
                             document.querySelector(`#connectionScreen`).style.display = "none"
                             document.querySelector(`#mainScreen`).style.display = "grid"
+                            document.querySelector("#userCard").style.display = "none"
                         } else {
                             if (tries > 0) {
                                 getScreenText(`Code faux, ${tries} essai(s) restant(s)`)
@@ -137,6 +156,22 @@ function chooseOption(btnClicked = null) {
         document.querySelector(`#connectionScreen`).style.display = "block"
         document.querySelector(`#mainScreen`).style.display = "none"
         getScreenText(`Vous avez ${cash}€ en banque`)
+    } else if (btnClicked === "RArrow2") {
+        document.querySelector(`.screen`).style.alignItems = "center"
+        document.querySelector(`#connectionScreen`).style.display = "block"
+        document.querySelector(`#mainScreen`).style.display = "none"
+        getScreenText(`Merci, au revoir et à bientôt`)
+        document.querySelector("#userCard").style.display = "block"
+        sessionStorage.setItem('code', "")
+    } else if (btnClicked === "LArrow2") {
+        document.querySelector(`.screen`).style.alignItems = "center"
+        document.querySelector(`#connectionScreen`).style.display = "block"
+        document.querySelector(`#mainScreen`).style.display = "none"
+        getScreenText(`Définir un code de 4 chiffres et valider`)
+        localStorage.setItem('lastCode', localStorage.getItem('code'))
+        localStorage.setItem('code', "")
+        sessionStorage.setItem('code', "")
+        sessionStorage.setItem('changeCode', false)
     } else {
         console.log(btnClicked)
     }

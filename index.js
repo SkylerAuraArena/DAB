@@ -2,7 +2,9 @@ import { getScreenText, checkCard, useCashMachine } from './algo.js'
 
 sessionStorage.setItem('code', "")
 localStorage.setItem('code', "")
+localStorage.setItem('lastCode', "")
 sessionStorage.setItem('tries', 2)
+sessionStorage.setItem('changeCode', true)
 const cash = Math.floor(Math.random() * 1001)
 localStorage.setItem('cash', cash)
 let userCode = localStorage.getItem('code')
