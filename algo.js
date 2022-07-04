@@ -24,9 +24,12 @@ export function useCashMachine(btnClicked = null) {
     let screen = document.querySelector('.screen')
     let mainScreenDisplayed = getComputedStyle(document.querySelector('#mainScreen')).display
     const frozenCard = sessionStorage.getItem('frozenCard')
+    const withdraw = sessionStorage.getItem('withdraw')
     if (frozenCard === "false") {
         if (mainScreenDisplayed === "grid") {
             btnClicked && chooseOption(btnClicked)
+        } else if (withdraw === "true") {
+            btnClicked && manageCash(btnClicked)
         } else if (screen.textContent.includes("€ en banque")) {
             document.querySelector(`.screen`).style.alignItems = "stretch"
             document.querySelector(`#connectionScreen`).style.display = "none"
@@ -153,7 +156,22 @@ function setUserCode(btnClicked = null) {
 
 function chooseOption(btnClicked = null) {
     const cash = localStorage.getItem('cash')
-    if (btnClicked === "RArrow1") {
+    if (btnClicked === "LArrow1") {
+        document.querySelector(`.screen`).style.alignItems = "center"
+        document.querySelector(`#connectionScreen`).style.display = "block"
+        document.querySelector(`#mainScreen`).style.display = "none"
+        getScreenText(`Combien voulez-vous retirer ?`)
+        sessionStorage.setItem('withdraw', true)
+    } else if (btnClicked === "LArrow2") {
+        document.querySelector(`.screen`).style.alignItems = "center"
+        document.querySelector(`#connectionScreen`).style.display = "block"
+        document.querySelector(`#mainScreen`).style.display = "none"
+        getScreenText(`Définir un code de 4 chiffres et valider`)
+        localStorage.setItem('lastCode', localStorage.getItem('code'))
+        localStorage.setItem('code', "")
+        sessionStorage.setItem('code', "")
+        sessionStorage.setItem('changeCode', false)
+    } else if (btnClicked === "RArrow1") {
         document.querySelector(`.screen`).style.alignItems = "center"
         document.querySelector(`#connectionScreen`).style.display = "block"
         document.querySelector(`#mainScreen`).style.display = "none"
@@ -165,16 +183,40 @@ function chooseOption(btnClicked = null) {
         getScreenText(`Merci, au revoir et à bientôt`)
         document.querySelector("#userCard").style.display = "block"
         sessionStorage.setItem('code', "")
-    } else if (btnClicked === "LArrow2") {
-        document.querySelector(`.screen`).style.alignItems = "center"
-        document.querySelector(`#connectionScreen`).style.display = "block"
-        document.querySelector(`#mainScreen`).style.display = "none"
-        getScreenText(`Définir un code de 4 chiffres et valider`)
-        localStorage.setItem('lastCode', localStorage.getItem('code'))
-        localStorage.setItem('code', "")
-        sessionStorage.setItem('code', "")
-        sessionStorage.setItem('changeCode', false)
-    } else {
-        console.log(btnClicked)
+    }
+}
+
+function manageCash(btnClicked = null) {
+    const cash = localStorage.getItem('cash')
+    let screen = document.querySelector(`#connectionScreen`).textContent
+    let figure = document.querySelector(`#${btnClicked}`).textContent
+    const cashLength = screen.length
+    if (btnClicked.includes('btn')) {
+        if (screen === "Combien voulez-vous retirer ?") {
+            getScreenText(`${figure}`)
+        } else {
+            if (cashLength < 12) {
+                getScreenText(`${screen}${figure}`)
+            } else {
+                getScreenText(`Impossible de retirer plus de 99 999 999 999€`)
+            }
+        }
+    } else if (btnClicked.includes('cancel')) {
+        document.querySelector(`.screen`).style.alignItems = "stretch"
+        document.querySelector(`#connectionScreen`).style.display = "none"
+        document.querySelector(`#mainScreen`).style.display = "grid"
+    } else if (btnClicked.includes('clear')) {
+        if (cashLength > 1 && screen !== "Combien voulez-vous retirer ?" && screen !== "Vous ne possédez pas autant sur votre compte" && !screen.includes('Prenez vos billets') && !screen.includes('Impossible de retirer plus de')) {
+            getScreenText(`${screen.substring(0, screen.length - 1)}`)
+        } else {
+            getScreenText(`Combien voulez-vous retirer ?`)
+        }
+    } else if (btnClicked.includes('validate')) {
+        const cashToWithdraw = parseInt(screen)
+        if (cashLength > 1 && screen !== "Combien voulez-vous retirer ?" && cashToWithdraw <= cash) {
+            getScreenText(`Prenez vos billets : ${cashToWithdraw}€`)
+        } else {
+            getScreenText(`Vous ne possédez pas autant sur votre compte`)
+        }
     }
 }

@@ -8,6 +8,7 @@ sessionStorage.setItem('changeCode', true)
 sessionStorage.setItem('frozenCard', false)
 const cash = Math.floor(Math.random() * 1001)
 localStorage.setItem('cash', cash)
+sessionStorage.setItem('withdraw', false)
 let userCode = localStorage.getItem('code')
 if (!userCode || userCode === "") {
     getScreenText("Définir un code de 4 chiffres et valider")
