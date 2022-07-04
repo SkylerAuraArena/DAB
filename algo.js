@@ -187,7 +187,7 @@ function chooseOption(btnClicked = null) {
 }
 
 function manageCash(btnClicked = null) {
-    const cash = localStorage.getItem('cash')
+    const cash = parseInt(localStorage.getItem('cash'))
     let screen = document.querySelector(`#connectionScreen`).textContent
     let figure = document.querySelector(`#${btnClicked}`).textContent
     const cashLength = screen.length
@@ -206,16 +206,23 @@ function manageCash(btnClicked = null) {
         document.querySelector(`#connectionScreen`).style.display = "none"
         document.querySelector(`#mainScreen`).style.display = "grid"
     } else if (btnClicked.includes('clear')) {
-        if (cashLength > 1 && screen !== "Combien voulez-vous retirer ?" && screen !== "Vous ne possédez pas autant sur votre compte" && !screen.includes('Prenez vos billets') && !screen.includes('Impossible de retirer plus de')) {
+        if (cashLength > 1 && screen !== "Combien voulez-vous retirer ?" && screen !== "Vous ne possédez pas autant sur votre compte" && !screen.includes('Prenez vos billets') && screen !== 'Vous vous croyez drôle ?' && screen !== 'Vous ne pouvez-pas retirer de montant négatif' && !screen.includes('Impossible de retirer plus de')) {
             getScreenText(`${screen.substring(0, screen.length - 1)}`)
         } else {
             getScreenText(`Combien voulez-vous retirer ?`)
         }
     } else if (btnClicked.includes('validate')) {
         const cashToWithdraw = parseInt(screen)
-        if (cashLength > 1 && screen !== "Combien voulez-vous retirer ?" && cashToWithdraw <= cash) {
+        const newBalance = cash - cashToWithdraw
+        if (screen !== "Combien voulez-vous retirer ?" && cashToWithdraw <= cash && cashToWithdraw > 0) {
+            localStorage.setItem('cash', newBalance)
             getScreenText(`Prenez vos billets : ${cashToWithdraw}€`)
-        } else {
+            sessionStorage.setItem('withdraw', false)
+        } else if (cashToWithdraw === 0) {
+            getScreenText(`Vous vous croyez drôle ?`)
+        } else if (cashToWithdraw < 0) {
+            getScreenText(`Vous ne pouvez-pas retirer de montant négatif`)
+        } else if (cashToWithdraw > cash) {
             getScreenText(`Vous ne possédez pas autant sur votre compte`)
         }
     }
