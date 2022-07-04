@@ -23,14 +23,17 @@ export function getScreenText(text = "") {
 export function useCashMachine(btnClicked = null) {
     let screen = document.querySelector('.screen')
     let mainScreenDisplayed = getComputedStyle(document.querySelector('#mainScreen')).display
-    if (mainScreenDisplayed === "grid") {
-        btnClicked && chooseOption(btnClicked)
-    } else if (screen.textContent.includes("€ en banque")) {
-        document.querySelector(`.screen`).style.alignItems = "stretch"
-        document.querySelector(`#connectionScreen`).style.display = "none"
-        document.querySelector(`#mainScreen`).style.display = "grid"
-    } else if (screen.textContent !== "Insérer votre carte" && screen.textContent !== "La carte est mal positionnée") {
-        btnClicked && setUserCode(btnClicked)
+    const frozenCard = sessionStorage.getItem('frozenCard')
+    if (frozenCard === "false") {
+        if (mainScreenDisplayed === "grid") {
+            btnClicked && chooseOption(btnClicked)
+        } else if (screen.textContent.includes("€ en banque")) {
+            document.querySelector(`.screen`).style.alignItems = "stretch"
+            document.querySelector(`#connectionScreen`).style.display = "none"
+            document.querySelector(`#mainScreen`).style.display = "grid"
+        } else if (screen.textContent !== "Insérer votre carte" && screen.textContent !== "La carte est mal positionnée") {
+            btnClicked && setUserCode(btnClicked)
+        }
     }
 }
 
@@ -42,7 +45,6 @@ function setUserCode(btnClicked = null) {
     let codeLength = userCode.length
     if (screen.textContent === "Définir un code de 4 chiffres et valider" || validCode.length === 0 || validCode.length < 4) {
         if (!btnClicked.includes('Arrow') && !btnClicked.includes('coma') && !btnClicked.includes('empty')) {
-            console.log("AAAAAAAAAA")
             if (btnClicked.includes('cancel') || (btnClicked.includes('clear') && codeLength === 1)) {
                 sessionStorage.setItem('code', '')
                 getScreenText('Définir un code de 4 chiffres et valider')
@@ -62,7 +64,6 @@ function setUserCode(btnClicked = null) {
                     getScreenText('Le code doit être de 4 chiffres')
                 }
             } else {
-                console.log("BBBBBBBBBBBB")
                 if (btnClicked.includes('clear')) {
                     sessionStorage.setItem('code', userCode.substring(0, codeLength - 1))
                     getScreenText('*'.repeat(codeLength - 1))
@@ -138,6 +139,7 @@ function setUserCode(btnClicked = null) {
                             } else {
                                 getScreenText(`Code faux, carte avalée.`)
                                 document.querySelector("#userCard").style.display = "none"
+                                sessionStorage.setItem('frozenCard', true)
                             }
                         }
                     }
